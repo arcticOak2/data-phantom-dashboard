@@ -1,0 +1,56 @@
+{
+  "name": "data-phantom-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.11.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-flow-renderer": "^10.3.17",
+    "react-router-dom": "^6.30.1",
+    "react-scripts": "5.0.1",
+    "react-simple-code-editor": "^0.14.1",
+    "react-syntax-highlighter": "^15.6.6",
+    "reactflow": "^11.11.4",
+    "sql-formatter": "^15.6.6",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "test:integration": "node tests/integration/test-runner.js",
+    "test:integration:watch": "node tests/integration/test-runner.js --watch",
+    "test:integration:report": "node tests/integration/test-runner.js --report"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://localhost:9092",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^27.5.1",
+    "supertest": "^7.1.4"
+  }
+}
