@@ -10,7 +10,6 @@ React-based frontend for the Data Phantom Platform - a visual interface for mana
 - **Data Reconciliation**: Visual reconciliation setup and result viewing
 - **UDF Management**: Upload and manage custom User-Defined Functions
 - **Authentication**: Secure login and user management
-- **AI Assistant**: Integrated chat interface for query assistance
 
 ## Tech Stack
 
@@ -35,7 +34,6 @@ cp .env.example .env
 
 # Edit .env with your settings
 REACT_APP_API_URL=http://localhost:8080
-REACT_APP_AI_SERVICE_URL=http://localhost:11434
 ```
 
 3. **Start development server:**
@@ -55,8 +53,6 @@ Create a `.env` file in the root directory:
 # Backend API URL
 REACT_APP_API_URL=http://localhost:8080
 
-# AI Service URL (optional)
-REACT_APP_AI_SERVICE_URL=http://localhost:11434
 ```
 
 ## Available Scripts
@@ -85,7 +81,6 @@ src/
 - **TaskGraph**: Visual DAG representation
 - **Reconciliation**: Data reconciliation interface
 - **UDFModal**: UDF upload and management
-- **ChatWindow**: AI assistant integration
 - **AuthProvider**: Authentication context
 
 ## Author
