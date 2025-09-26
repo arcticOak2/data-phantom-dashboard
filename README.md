@@ -45,6 +45,11 @@ npm start
 - Frontend: http://localhost:3000
 - Make sure the Data Phantom backend is running on the configured API URL
 
+## Backend
+
+This frontend connects to the Data Phantom backend API. The backend repository can be found at:
+- **Backend Repository**: [https://github.com/arcticOak2/annihilator-data-playground](https://github.com/arcticOak2/annihilator-data-playground)
+
 ## Configuration
 
 Create a `.env` file in the root directory:
