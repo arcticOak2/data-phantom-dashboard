@@ -468,6 +468,70 @@ export const UDFApi = {
   }
 };
 
+/**
+ * Notification API functions
+ */
+export const NotificationApi = {
+  /**
+   * Get notification subscribers for a playground
+   */
+  getSubscribers: async (playgroundId) => {
+    const apiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:9092'}/data-phantom/notification-destinations/playground/${playgroundId}`;
+    
+    return circuitBreakers.playgrounds.execute(async () => {
+      const response = await fetchJsonWithRetry(apiUrl, {
+        method: 'GET'
+      });
+      
+      // Return the destinations array from the response
+      return response.destinations || [];
+    });
+  },
+
+  /**
+   * Add email subscriber to playground notifications
+   */
+  addSubscriber: async (playgroundId, email) => {
+    const apiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:9092'}/data-phantom/notification-destinations`;
+    
+    return circuitBreakers.playgrounds.execute(async () => {
+      const requestBody = {
+        playgroundId: playgroundId,
+        destination: email,
+        destinationType: "EMAIL",
+        enabled: true
+      };
+      
+      console.log('Creating notification destination with body:', JSON.stringify(requestBody, null, 2)); // Debug log
+      
+      const response = await fetchJsonWithRetry(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      });
+      
+      console.log('Response from create notification:', response); // Debug log
+      
+      return response.destination;
+    });
+  },
+
+  /**
+   * Remove email subscriber from playground notifications
+   */
+  removeSubscriber: async (destinationId) => {
+    const apiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:9092'}/data-phantom/notification-destinations/${destinationId}`;
+    
+    return circuitBreakers.playgrounds.execute(async () => {
+      return fetchJsonWithRetry(apiUrl, {
+        method: 'DELETE'
+      });
+    });
+  }
+};
+
 
 
 
