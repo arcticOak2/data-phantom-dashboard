@@ -4,6 +4,7 @@ import TaskGraph from './TaskGraph';
 import TaskList from './TaskList';
 import RunHistory from './RunHistory';
 import Reconciliation from './Reconciliation';
+import NotificationSettings from './NotificationSettings';
 import EditQueryModal from './EditQueryModal';
 import TaskDetailsModal from './TaskDetailsModal';
 import CreateTaskModal from './CreateTaskModal';
@@ -1679,6 +1680,45 @@ const TaskManager = ({ playground, tasks, setTasks, loading, setLoading, running
             Run History
           </button>
 
+          <button
+            onClick={() => setViewMode('notifications')}
+            style={{
+              background: viewMode === 'notifications' 
+                ? 'white' 
+                : 'transparent',
+              color: viewMode === 'notifications' 
+                ? 'var(--primary-700)' 
+                : 'var(--neutral-600)',
+              border: 'none',
+              padding: '6px 12px',
+              borderRadius: 'var(--radius-md)',
+              fontSize: '12px',
+              fontWeight: viewMode === 'notifications' ? '600' : '500',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              boxShadow: viewMode === 'notifications' ? 'var(--shadow-sm)' : 'none',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '4px',
+              whiteSpace: 'nowrap'
+            }}
+            onMouseEnter={(e) => {
+              if (viewMode !== 'notifications') {
+                e.target.style.background = 'rgba(255, 255, 255, 0.5)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = 'transparent';
+            }}
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            Notifications
+          </button>
+
 
         </div>
       </div>
@@ -1713,6 +1753,10 @@ const TaskManager = ({ playground, tasks, setTasks, loading, setLoading, running
         ) : viewMode === 'reconciliation' ? (
           <Reconciliation 
             tasks={tasks || []}
+            playground={playground}
+          />
+        ) : viewMode === 'notifications' ? (
+          <NotificationSettings 
             playground={playground}
           />
         ) : null}
