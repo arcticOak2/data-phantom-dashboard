@@ -502,8 +502,6 @@ export const NotificationApi = {
         enabled: true
       };
       
-      console.log('Creating notification destination with body:', JSON.stringify(requestBody, null, 2)); // Debug log
-      
       const response = await fetchJsonWithRetry(apiUrl, {
         method: 'POST',
         headers: {
@@ -511,8 +509,6 @@ export const NotificationApi = {
         },
         body: JSON.stringify(requestBody)
       });
-      
-      console.log('Response from create notification:', response); // Debug log
       
       return response.destination;
     });

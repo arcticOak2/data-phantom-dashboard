@@ -965,19 +965,82 @@ const TaskDetailsModal = ({ isOpen, onClose, task }) => {
                   Query
                 </h3>
                 <div style={{
-                  fontSize: '12px',
-                  color: 'var(--neutral-500)',
-                  fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace'
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
                 }}>
-                  {task.type.replace('_', ' ')}
+                  <div style={{
+                    fontSize: '12px',
+                    color: 'var(--neutral-500)',
+                    fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace'
+                  }}>
+                    {task.type.replace('_', ' ')}
+                  </div>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(task.query).then(() => {
+                        // Show a brief success indication
+                        const button = document.activeElement;
+                        const originalText = button.textContent;
+                        button.textContent = 'Copied!';
+                        button.style.color = 'var(--success-600)';
+                        setTimeout(() => {
+                          button.textContent = originalText;
+                          button.style.color = 'var(--neutral-600)';
+                        }, 2000);
+                      }).catch(err => {
+                        console.error('Failed to copy query:', err);
+                      });
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      padding: '6px 12px',
+                      background: 'white',
+                      border: '1px solid var(--neutral-300)',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      fontWeight: '500',
+                      color: 'var(--neutral-600)',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = 'var(--neutral-50)';
+                      e.target.style.borderColor = 'var(--neutral-400)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = 'white';
+                      e.target.style.borderColor = 'var(--neutral-300)';
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                    </svg>
+                    Copy Query
+                  </button>
                 </div>
               </div>
               <div style={{
                 flex: 1,
                 overflow: 'auto',
                 border: 'none',
-                outline: 'none'
+                outline: 'none',
+                position: 'relative'
               }}>
+                {/* Overlay to prevent text selection */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  zIndex: 1,
+                  pointerEvents: 'none',
+                  background: 'transparent'
+                }} />
                 <SyntaxHighlighter
                   language="sql"
                   style={prism}
@@ -988,7 +1051,11 @@ const TaskDetailsModal = ({ isOpen, onClose, task }) => {
                     fontSize: '16px',
                     lineHeight: '1.6',
                     borderRadius: 0,
-                    border: 'none'
+                    border: 'none',
+                    userSelect: 'none', // Prevent text selection
+                    WebkitUserSelect: 'none',
+                    MozUserSelect: 'none',
+                    msUserSelect: 'none'
                   }}
                   showLineNumbers={true}
                   wrapLines={true}
@@ -996,6 +1063,47 @@ const TaskDetailsModal = ({ isOpen, onClose, task }) => {
                 >
                   {task.query}
                 </SyntaxHighlighter>
+                {/* Overlay message when user tries to select */}
+                <div style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  background: 'rgba(0, 0, 0, 0.8)',
+                  color: 'white',
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  display: 'none',
+                  zIndex: 2,
+                  pointerEvents: 'none',
+                  whiteSpace: 'nowrap'
+                }}
+                id="copy-hint"
+                >
+                  Use the "Copy Query" button above for clean formatting
+                </div>
+              </div>
+              {/* Copy Instruction Message */}
+              <div style={{
+                padding: '8px 16px',
+                background: '#fff3cd',
+                borderTop: '1px solid #ffeaa7',
+                fontSize: '12px',
+                color: '#856404',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v-4"/>
+                  <path d="M12 8h.01"/>
+                </svg>
+                <span>
+                  <strong>Tip:</strong> Use the "Copy Query" button above to copy the SQL with proper formatting.
+                </span>
               </div>
               {/* SQL Information Message */}
               {task.type === 'SQL' && (
